@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Chat</title>
+    <style>
+        /* General styling for the body */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #007BFF;
+        }
+
+        /* Form styling */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s;
+        }
+
+        form:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Input field styling */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            h3 {
+                font-size: 24px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            input[type="text"], textarea {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h3>Write New Chat...</h3>
+    <form method="POST" action="/chats" >
+        <input type="text" name="from" placeholder="Who are you" required>
+        <textarea name="msg" placeholder="Write your message..." rows="4" required></textarea>
+        <input type="text" name="to" placeholder=" Add Receiver " required>
+        <button type="submit">Create New Chat</button>
+    </form>
+</body>
+</html>

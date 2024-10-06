@@ -1,0 +1,211 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting App</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Glassmorphism chat container */
+        .chat-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .chat {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .chat:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Styling for the text within the chat */
+        .chat p {
+            margin: 0;
+            font-size: 18px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .chat i {
+            font-style: italic;
+            color: #888;
+        }
+
+        /* Chat bubble with gradient background */
+        .msg {
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin-top: 12px;
+            font-size: 16px;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .msg:before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 12px solid #2193b0;
+            border-right: 12px solid transparent;
+            position: absolute;
+            top: 50px;
+            left: -10px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
+        }
+
+        /* Button styling */
+        button {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 20px 0; /* Add some margin */
+            transition: all 0.4s ease;
+            display: inline-block; /* Make buttons inline */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Flexbox container for button alignment */
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Space between buttons */
+            align-items: center; /* Align items vertically */
+        }
+
+        /* Hover effects for Edit and Delete buttons */
+        .edit-button {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+        }
+
+        .edit-button:hover {
+            background: linear-gradient(135deg, #45a049, #73c686);
+        }
+
+        .delete-button {
+            background: linear-gradient(135deg, #f44336, #ef5350);
+        }
+
+        .delete-button:hover {
+            background: linear-gradient(135deg, #e53935, #f55a28);
+        }
+
+        /* Animation for chat appearance */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 20px;
+            }
+
+            .chat {
+                padding: 15px;
+            }
+
+            .msg {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h3>All Chats</h3>
+        <form action="/chats/new" method="get">
+            <button type="submit">New Chat</button>
+        </form>
+        <% for(let chat of chats) { %>
+        <div class="chat">
+            <p>From: <i><%= chat.from %></i></p>
+            <p>To: <i><%= chat.to %></i></p>
+            <p class="msg"><%= chat.msg %></p>
+
+            <div class="button-container">
+                <form method="get" action="/chats/<%= chat._id %>/edit">
+                    <button type="submit" class="edit-button">Edit Chat</button>
+                </form>
+                <form method="post" action="/chats/<%= chat._id %>/?_method=DELETE">
+                    <button type="submit" class="delete-button">Delete Chat</button>
+                </form>
+            </div>
+            
+            <hr>
+            <p><%= chat.created_at.toString().split(" ")[4] %></p>
+            <p><%= chat.created_at.toString().split(" ").slice(0, 4).join(" / ") %></p>
+        </div>
+        <% } %>
+    </div>
+</body>
+</html>
